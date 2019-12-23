@@ -9,7 +9,7 @@
 | POST   | `/register` | Creates new user |
 | POST   | `/login`    | Logs in user     |
 
-<br/><br/>
+<br/>
 
 > /api/auth/**register**
 

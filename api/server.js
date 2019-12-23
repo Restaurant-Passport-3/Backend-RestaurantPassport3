@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const authenticate = require("../auth/authenticate-middleware.js");
 const authRouter = require("../auth/auth-router.js");
 const usersRouter = require("../users/users-router.js");
+const restaurantsRouter = require("../restaurants/restaurants-router.js");
 
 const server = express();
 
@@ -15,6 +16,7 @@ server.use(express.json());
 server.use("/api/auth", authRouter);
 // server.use("/api/users", authenticate, usersRouter);
 server.use("/api/users", usersRouter);
+server.use("/api/restaurants", restaurantsRouter);
 
 server.get("/test", async (req, res) => {
   res.json({ message: "alive!" });
