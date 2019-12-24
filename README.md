@@ -3,18 +3,22 @@
 - [Authentication Routes](#authentication-routes)
   - [Register](#register)
   - [Login](#login)
+- [User Routes](#user-routes)
+  - [Get Users](#get-users)
+  - [Get User By Id](#get-user-by-id)
+  - [Get Passport By User Id](#get-passport)
 
 # API Endpoints
 
 ## <a name="reference"></a>All Routes Quick Reference
 
-| Method | Endpoint                  | Description                                  |
-| ------ | ------------------------- | -------------------------------------------- |
-| POST   | `/api/auth/register`      | Creates new user                             |
-| POST   | `/api/auth/login`         | Logs in user                                 |
-| GET    | `/api/users`              | List of users                                |
-| GET    | `/api/users/:id`          | User by ID                                   |
-| GET    | `/api/users/:id/passport` | User's list of restaurants in their passport |
+| Method | Endpoint                  | Restricted | Description                                  |
+| ------ | ------------------------- | :--------: | -------------------------------------------- |
+| POST   | `/api/auth/register`      |            | Creates new user                             |
+| POST   | `/api/auth/login`         |            | Logs in user                                 |
+| GET    | `/api/users`              |     ✔️     | List of users                                |
+| GET    | `/api/users/:id`          |     ✔️     | User by ID                                   |
+| GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport |
 
 ## <a name="authentication-routes"></a>Authentication Routes
 
@@ -104,7 +108,7 @@ _response:_
 
 <br/>
 
-## User Routes
+## <a name="user-routes"></a>User Routes
 
 ### `/api/users`
 
@@ -118,7 +122,7 @@ _Route requires authentication. Authentication token is given as a response when
 
 <br/>
 
-> `GET` &nbsp;&nbsp;&nbsp;/api/users
+> <a name="get-users"></a>`GET` &nbsp;&nbsp;&nbsp;/api/users
 
 _response:_
 
@@ -145,7 +149,7 @@ _response:_
 
 <br/>
 
-> `GET` &nbsp;&nbsp;&nbsp;/api/users/:id
+> <a name="get-user-by-id"></a>`GET` &nbsp;&nbsp;&nbsp;/api/users/:id
 
 _response:_
 
@@ -168,7 +172,7 @@ _response:_
 
 <br/>
 
-> `GET` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
+> <a name="get-passport"></a>`GET` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
 
 _response:_
 
