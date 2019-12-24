@@ -1,6 +1,6 @@
 exports.up = function(knex) {
   return knex.schema.createTable("passports", users => {
-    users.string("user_id", 128).notNullable();
+    users.integer("user_id").notNullable();
 
     users.string("restaurant_id", 128).notNullable();
 
