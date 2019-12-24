@@ -7,10 +7,24 @@ router.get("/", (req, res) => {
     .then(users => {
       res.status(200).json(users);
     })
-    .catch(err => res.status(500).json({ error: "Could not retrieve users" }));
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Could not retrieve users" });
+    });
 });
 
-router.get("/:id/passport", (req, res) => {
+router.get("/:id", validateUserId, (req, res) => {
+  Users.findById(req.params.id)
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Could not retrieve user" });
+    });
+});
+
+router.get("/:id/passport", validateUserId, (req, res) => {
   console.log(req.params.id);
   Users.findPassportByUserId(req.params.id)
     .then(passports => {
@@ -28,5 +42,18 @@ router.get("/:id/passport", (req, res) => {
       res.status(500).json({ error: "Could not retrieve passport" });
     });
 });
+
+//custom middleware
+function validateUserId(req, res, next) {
+  Users.findById(req.params.id).then(user => {
+    if (user) {
+      next();
+    } else {
+      res
+        .status(404)
+        .json({ message: "The user with the specified ID does not exist." });
+    }
+  });
+}
 
 module.exports = router;

@@ -19,7 +19,7 @@ server.use("/api/users", usersRouter);
 server.use("/api/restaurants", restaurantsRouter);
 
 server.get("/test", async (req, res) => {
-  res.json({ message: "alive!" });
+  res.json({ message: "It's alive!" });
 });
 
 module.exports = server;
