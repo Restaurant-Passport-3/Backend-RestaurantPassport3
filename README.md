@@ -11,6 +11,10 @@
   - [Get Restaurants](#get-restaurants)
   - [Explore Restaurants](#explore-restaurants)
 
+# Deployed URL
+
+## https://rpass.herokuapp.com/
+
 # API Endpoints
 
 ## <a name="reference"></a>All Routes Quick Reference
@@ -27,7 +31,7 @@
 
 ## <a name="authentication-routes"></a>Authentication Routes
 
-### `/api/auth`
+### `https://rpass.herokuapp.com/api/auth`
 
 | Method | Endpoint    | Description      |
 | ------ | ----------- | ---------------- |
@@ -115,7 +119,7 @@ _response:_
 
 ## <a name="user-routes"></a>User Routes
 
-### `/api/users`
+### `https://rpass.herokuapp.com/api/users`
 
 _Route requires authentication. Authentication token is given as a response when logging in._
 
@@ -224,7 +228,7 @@ _response:_
 
 ## <a name="restaurant-routes"></a>Restaurant Routes
 
-### `/api/restaurants`
+### `https://rpass.herokuapp.com/api/restaurants`
 
 _Route requires authentication. Authentication token is given as a response when logging in._
 
