@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const Users = require("../users/users-model.js");
 
-router.post("/register", (req, res) => {
+router.post("/register", validateRegister, (req, res) => {
   console.log("posting register");
   let user = req.body;
   console.log(user);
@@ -22,7 +22,7 @@ router.post("/register", (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", validateLogin, (req, res) => {
   let { username, password } = req.body;
   console.log("LOGIN CHECK", username, password);
   Users.findBy({ username })
@@ -58,6 +58,33 @@ function signToken(user) {
   };
 
   return jwt.sign(payload, secret, options);
+}
+
+//custom middleware
+function validateRegister(req, res, next) {
+  if (!Object.keys(req.body).length > 0) {
+    res.status(400).json({ message: "missing project data" });
+  } else if (
+    !req.body.username ||
+    !req.body.email ||
+    !req.body.password ||
+    !req.body.name ||
+    !req.body.location
+  ) {
+    res.status(400).json({ message: "Missing registration fields" });
+  } else {
+    next();
+  }
+}
+
+function validateLogin(req, res, next) {
+  if (!Object.keys(req.body).length > 0) {
+    res.status(400).json({ message: "missing project data" });
+  } else if (!req.body.username || !req.body.password) {
+    res.status(400).json({ message: "Missing registration fields" });
+  } else {
+    next();
+  }
 }
 
 module.exports = router;
