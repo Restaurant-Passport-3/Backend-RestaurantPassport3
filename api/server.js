@@ -18,8 +18,14 @@ server.use("/api/auth", authRouter);
 server.use("/api/users", usersRouter);
 server.use("/api/restaurants", restaurantsRouter);
 
-server.get("/test", async (req, res) => {
-  res.json({ message: "It's alive!" });
+server.get("/", (req, res) => {
+  res
+    .status(200)
+    .json({
+      message: "Welcome to the Restaurant Passport API",
+      api: "up",
+      dbenv: process.env.DB_ENV
+    });
 });
 
 module.exports = server;
