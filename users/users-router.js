@@ -28,13 +28,13 @@ router.get("/:id/passport", validateUserId, (req, res) => {
   console.log(req.params.id);
   Users.findPassportByUserId(req.params.id)
     .then(passports => {
-      passports.map(i => {
-        if (i.stamped === 0) {
-          i.stamped = false;
-        } else if (i.stamped === 1) {
-          i.stamped = true;
-        }
-      });
+      // passports.map(i => {
+      //   if (i.stamped === 0) {
+      //     i.stamped = false;
+      //   } else if (i.stamped === 1) {
+      //     i.stamped = true;
+      //   }
+      // });
       res.status(200).json(passports);
     })
     .catch(err => {
