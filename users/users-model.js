@@ -4,7 +4,9 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+
+  findPassportByUserId
 };
 
 function find() {
@@ -25,4 +27,30 @@ function findById(id) {
   return db("users")
     .where({ id })
     .first();
+}
+
+function findPassportByUserId(user_id) {
+  /* SELECT p.restaurant_id, r.name, r.address, r.city, r.state, r.zipcode, r.phone_number, r.website_url, r.img_url, p.rating, p.notes, p.stamped, u.id as user_id FROM [passports] as p
+JOIN [users] as u ON u.id = p.user_id
+JOIN [restaurants] as r ON r.id = p.restaurant_id
+WHERE user_id = 1*/
+  return db("passports as p")
+    .select(
+      "p.restaurant_id",
+      "r.name",
+      "r.address",
+      "r.city",
+      "r.state",
+      "r.zipcode",
+      "r.phone_number",
+      "r.website_url",
+      "r.img_url",
+      "p.rating",
+      "p.notes",
+      "p.stamped",
+      "u.id as user_id"
+    )
+    .join("users as u", "u.id", "p.user_id")
+    .join("restaurants as r", "r.id", "p.restaurant_id")
+    .where("user_id", user_id);
 }

@@ -5,17 +5,31 @@ const client = yelp.client(
 );
 
 router.get("/", (req, res) => {
-  console.log("checking restaurants");
-
   client
     .search({
       // term: "Four Barrel Coffee",
-
+      limit: 50,
       //can be name of location or zipcode!
       location: "66202"
     })
     .then(response => {
-      res.status(200).json(response.jsonBody.businesses[0].name);
+      let restaurants = [];
+      response.jsonBody.businesses.map(i => {
+        restaurants.push({
+          id: i.id,
+          name: i.name,
+          address: i.location.address1,
+          city: i.location.city,
+          state: i.location.state,
+          zipcode: i.location.zip_code,
+          phone_number: i.phone,
+          website_url: i.url,
+          img_url: i.image_url
+        });
+      });
+
+      res.status(200).json(restaurants);
+      // res.status(200).json(response);
     })
     .catch(error => {
       console.log(error);
