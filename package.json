@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Restaurant Passport Backend",
   "main": "index.js",
+  "engines": {
+    "node": "10.16.3"
+  },
   "scripts": {
     "server": "nodemon index.js",
     "test": "cross-env DB_ENV=testing jest --watch",
