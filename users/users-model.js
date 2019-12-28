@@ -53,7 +53,6 @@ function findPassportByUserId(user_id) {
 }
 
 function deletePassportItem(user_id, restaurant_id) {
-  console.log(user_id, restaurant_id);
   return db("passports")
     .where("user_id", user_id)
     .andWhere("restaurant_id", restaurant_id)
