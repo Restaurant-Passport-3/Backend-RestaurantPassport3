@@ -43,7 +43,7 @@ router.get("/:id/passport", validateUserId, (req, res) => {
     });
 });
 
-//custom middleware
+
 function validateUserId(req, res, next) {
   Users.findById(req.params.id).then(user => {
     if (user) {

@@ -1,3 +1,5 @@
+# Table of Contents
+
 - [All Routes Quick Reference](#reference)
 
 - [Authentication Routes](#authentication-routes)
@@ -5,10 +7,13 @@
   - [Login](#login)
 - [User Routes](#user-routes)
   - [Get Users](#get-users)
-  - [Get User By Id](#get-user-by-id)
-  - [Get Passport By User Id](#get-passport)
+  - [Get User By ID](#get-user-by-id)
+  - [Get Passport By User ID](#get-passport)
 - [Restaurant Routes](#restaurant-routes)
+
   - [Get Restaurants](#get-restaurants)
+  - [Get Restaurant by ID](#get-restaurant-by-id)
+  - [Post Restaurant](#post-restaurant)
   - [Explore Restaurants](#explore-restaurants)
 
 # Deployed URL
@@ -27,6 +32,7 @@
 | GET    | `/api/users/:id`           |     ✔️     | User by ID                                   |
 | GET    | `/api/users/:id/passport`  |     ✔️     | User's list of restaurants in their passport |
 | GET    | `/api/restaurants`         |            | List of restaurants in the database          |
+| POST   | `/api/restaurants`         |            | Adds restaurant, preferably using Yelp data  |
 | GET    | `/api/restaurants/explore` |            | Restaurants pulled from Yelp API             |
 
 ## <a name="authentication-routes"></a>Authentication Routes
@@ -160,6 +166,10 @@ _response:_
 
 > <a name="get-user-by-id"></a>`GET` &nbsp;&nbsp;&nbsp;/api/users/:id
 
+_example:_
+
+> https://rpass.herokuapp.com/api/users/1
+
 _response:_
 
 #### Status Code: 200 (OK)
@@ -182,6 +192,10 @@ _response:_
 <br/>
 
 > <a name="get-passport"></a>`GET` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
+
+_example:_
+
+> https://rpass.herokuapp.com/api/users/1/passport
 
 _response:_
 
@@ -289,14 +303,100 @@ _response:_
 
 <br/>
 
+> <a name="get-restaurant-by-id"></a>`GET` &nbsp;&nbsp;&nbsp;/api/restaurants/:id
+
+_example:_
+
+> https://rpass.herokuapp.com/api/restaurants/QhzJXO6E_oLAx1Wz1Z_T2g
+
+_response:_
+
+#### Status Code: 200 (OK)
+
+```
+{
+  "id": "QhzJXO6E_oLAx1Wz1Z_T2g",
+  "name": "Joe's Kansas City Bar-B-Que",
+  "address": "3002 W 47th Ave",
+  "city": "Kansas City",
+  "state": "KS",
+  "zipcode": "66103",
+  "phone_number": "+19137223366",
+  "website_url": "https://www.yelp.com/biz/joes-kansas-city-bar-b-que-kansas-city-3?adjust_creative=kinvXEM0dE5rw0AmScmMOw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=kinvXEM0dE5rw0AmScmMOw",
+  "img_url": "https://s3-media3.fl.yelpcdn.com/bphoto/yDnNC9K0SWnOOV2IEyOCjw/o.jpg"
+}
+```
+
+<br/>
+
+---
+
+<br/>
+
+> <a name="post-restaurant"></a>`POST` &nbsp;&nbsp;&nbsp;/api/restaurants
+
+Should use data from `/api/restaurants/explore` to submit to restaurant database. Using `/api/restaurants/explore` will send back an object already organized as an object to be submitted at this endpoint.
+
+| Name           | Type   | Required | Description                               |
+| -------------- | ------ | :------: | ----------------------------------------- |
+| `id`           | String |    ✔️    | Should match Yelp entry's ID if it exists |
+| `name`         | String |    ✔️    |
+| `address`      | String |    ✔️    |
+| `city`         | String |    ✔️    |
+| `state`        | String |    ✔️    |
+| `zipcode`      | String |    ✔️    |
+| `phone_number` | String |    ✔️    |
+| `website_url`  | String |    ✔️    |
+| `img_url`      | String |    ✔️    |
+
+_example:_
+
+```
+  {
+    "id": "2WoigKND2DiwaO1BvcGonw",
+    "name": "Jones Bar-B-Q",
+    "address": "6706 Kaw Dr",
+    "city": "Kansas City",
+    "state": "KS",
+    "zipcode": "66111",
+    "phone_number": "+19137885005",
+    "website_url": "https://www.yelp.com/biz/jones-bar-b-q-kansas-city?adjust_creative=kinvXEM0dE5rw0AmScmMOw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=kinvXEM0dE5rw0AmScmMOw",
+    "img_url": "https://s3-media3.fl.yelpcdn.com/bphoto/WLP78Fk2tjh301Y-Mqu32w/o.jpg"
+  }
+```
+
+_response:_
+
+#### Status Code: 201 (Created)
+
+```
+{
+  "id": "2WoigKND2DiwaO1BvcGonw",
+  "name": "Jones Bar-B-Q",
+  "address": "6706 Kaw Dr",
+  "city": "Kansas City",
+  "state": "KS",
+  "zipcode": "66111",
+  "phone_number": "+19137885005",
+  "website_url": "https://www.yelp.com/biz/jones-bar-b-q-kansas-city?adjust_creative=kinvXEM0dE5rw0AmScmMOw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=kinvXEM0dE5rw0AmScmMOw",
+  "img_url": "https://s3-media3.fl.yelpcdn.com/bphoto/WLP78Fk2tjh301Y-Mqu32w/o.jpg"
+}
+```
+
+<br/>
+
+---
+
+<br/>
+
 > <a name="explore-restaurants"></a>`GET` &nbsp;&nbsp;&nbsp;/api/restaurants/explore
 
-Uses URL query parameters to perform search on Yelp API. Any single term can be used in `search` such as restaurant name, food types, etc. `location` should default to current user's location from the front end, otherwise it can be used to search by any location type such as zip code or city should the user input a location.
+Uses URL query parameters to perform search on Yelp API. Any single term can be used in `search` such as restaurant name, food types, etc. `location` should default to current user's location from the front end, otherwise it can be used to search by any location type such as zip code or city should the user input a location. Just remove the spaces and symbols from an input phrase and Yelp's API does the rest.
 
-| URL query  | Use                       | Examples                                            |
-| ---------- | ------------------------- | --------------------------------------------------- |
-| `search`   | Any general search term   | `bbq`, `McDonalds`, `asian food`                    |
-| `location` | Any general location term | `New York City`, `NYC`, `350 5th Ave, NY` , `10118` |
+| URL query  | Use                       | Examples                                           |
+| ---------- | ------------------------- | -------------------------------------------------- |
+| `search`   | Any general search term   | `bbq`, `McDonalds`, `asian`                        |
+| `location` | Any general location term | `New York City`, `NYC`, `350 5th Ave NY` , `10118` |
 
 _example:_
 

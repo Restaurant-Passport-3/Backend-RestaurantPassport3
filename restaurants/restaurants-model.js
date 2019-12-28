@@ -8,7 +8,6 @@ module.exports = {
 };
 
 function find() {
-  console.log("getting restaurants");
   return db("restaurants");
 }
 
@@ -17,9 +16,9 @@ function findBy(filter) {
 }
 
 async function add(restaurant) {
-  const [id] = await db("users").insert(user);
+  const [id] = await db("restaurants").insert(restaurant);
 
-  return findById(id).first();
+  return findById(restaurant.id).first();
 }
 
 function findById(id) {

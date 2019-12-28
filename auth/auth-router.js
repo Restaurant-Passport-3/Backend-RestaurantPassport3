@@ -5,16 +5,12 @@ const jwt = require("jsonwebtoken");
 const Users = require("../users/users-model.js");
 
 router.post("/register", validateRegister, (req, res) => {
-  console.log("posting register");
   let user = req.body;
-  console.log(user);
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
-  console.log(hash);
 
   Users.add(user)
     .then(saved => {
-      console.log(saved);
       res.status(201).json(saved);
     })
     .catch(error => {
@@ -24,13 +20,11 @@ router.post("/register", validateRegister, (req, res) => {
 
 router.post("/login", validateLogin, (req, res) => {
   let { username, password } = req.body;
-  console.log("LOGIN CHECK", username, password);
+
   Users.findBy({ username })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        // sign token
-        console.log("PASSWORD LOG", password, user.password);
         const token = signToken(user);
 
         res
@@ -60,7 +54,6 @@ function signToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-//custom middleware
 function validateRegister(req, res, next) {
   if (!Object.keys(req.body).length > 0) {
     res.status(400).json({ message: "missing project data" });

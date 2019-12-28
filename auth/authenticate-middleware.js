@@ -6,7 +6,6 @@ module.exports = (req, res, next) => {
     process.env.JWT_SECRET || "I find your lack of faith disturbing.";
 
   if (authorization) {
-    // console.log(authorization);
     jwt.verify(authorization, secret, (err, decodedToken) => {
       if (err) {
         res.status(401).json({ message: "Please provide correct credentials" });
