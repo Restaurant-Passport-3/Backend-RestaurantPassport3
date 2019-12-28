@@ -74,6 +74,7 @@ router.get("/explore", (req, res) => {
     });
 });
 
+// MIDDLEWARE
 function validateRestaurantId(req, res, next) {
   Restaurants.findById(req.params.id).then(restaurant => {
     if (restaurant) {

@@ -42,6 +42,32 @@ router.get("/:id/passport", validateUserId, (req, res) => {
     });
 });
 
+router.delete("/:id/passport", validateUserId, (req, res) => {
+  if (!req.body.restaurant_id) {
+    res.status(400).json({ message: "Missing restaurant ID" });
+  } else {
+    Users.deletePassportItem(req.params.id, req.body.restaurant_id)
+      .then(response => {
+        if (response === 1) {
+          res
+            .status(200)
+            .json({ message: "Passport item deleted successfully." });
+        } else {
+          res.status(404).json({
+            message:
+              "The restaurant with the specified ID does not exist on this passport."
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res
+          .status(500)
+          .json({ error: "Could not delete restaurant on passport" });
+      });
+  }
+});
+
 function validateUserId(req, res, next) {
   Users.findById(req.params.id).then(user => {
     if (user) {
@@ -53,5 +79,7 @@ function validateUserId(req, res, next) {
     }
   });
 }
+
+function validatePassportId(req, res, next) {}
 
 module.exports = router;

@@ -9,8 +9,8 @@
   - [Get Users](#get-users)
   - [Get User By ID](#get-user-by-id)
   - [Get Passport By User ID](#get-passport)
+  - [Delete Passport Item](#delete-passport-item)
 - [Restaurant Routes](#restaurant-routes)
-
   - [Get Restaurants](#get-restaurants)
   - [Get Restaurant by ID](#get-restaurant-by-id)
   - [Post Restaurant](#post-restaurant)
@@ -31,7 +31,9 @@
 | GET    | `/api/users`               |     ✔️     | List of users                                |
 | GET    | `/api/users/:id`           |     ✔️     | User by ID                                   |
 | GET    | `/api/users/:id/passport`  |     ✔️     | User's list of restaurants in their passport |
+| DELETE | `/api/users/:id/passport`  |     ✔️     | Delete a restaurant from a user's passport   |
 | GET    | `/api/restaurants`         |            | List of restaurants in the database          |
+| GET    | `/api/restaurants/:id`     |            | Returns restaurant by ID                     |
 | POST   | `/api/restaurants`         |            | Adds restaurant, preferably using Yelp data  |
 | GET    | `/api/restaurants/explore` |            | Restaurants pulled from Yelp API             |
 
@@ -232,6 +234,38 @@ _response:_
     "user_id": 1
   }
 ]
+```
+
+<br/>
+
+---
+
+<br/>
+
+> <a name="login"></a>`DELETE` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
+
+| Name            | Type   | Required |
+| --------------- | ------ | :------: |
+| `restaurant_id` | String |    ✔️    |
+
+_example:_
+
+> https://rpass.herokuapp.com/api/users/1/passport
+
+```
+{
+  "restaurant_id":"lPtvU9WezDkRzEvJge4sFw"
+}
+```
+
+_response:_
+
+#### Status Code: 200 (OK)
+
+```
+{
+  "message": "Passport item deleted successfully."
+}
 ```
 
 <br/>
