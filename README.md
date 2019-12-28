@@ -14,6 +14,7 @@
   - [Get Restaurants](#get-restaurants)
   - [Get Restaurant by ID](#get-restaurant-by-id)
   - [Post Restaurant](#post-restaurant)
+- [Explore Routes](#explore-routes)
   - [Explore Restaurants](#explore-restaurants)
 
 # Deployed URL
@@ -24,18 +25,18 @@
 
 ## <a name="reference"></a>All Routes Quick Reference
 
-| Method | Endpoint                   | Restricted | Description                                  |
-| ------ | -------------------------- | :--------: | -------------------------------------------- |
-| POST   | `/api/auth/register`       |            | Creates new user                             |
-| POST   | `/api/auth/login`          |            | Logs in user                                 |
-| GET    | `/api/users`               |     ✔️     | List of users                                |
-| GET    | `/api/users/:id`           |     ✔️     | User by ID                                   |
-| GET    | `/api/users/:id/passport`  |     ✔️     | User's list of restaurants in their passport |
-| DELETE | `/api/users/:id/passport`  |     ✔️     | Delete a restaurant from a user's passport   |
-| GET    | `/api/restaurants`         |            | List of restaurants in the database          |
-| GET    | `/api/restaurants/:id`     |            | Returns restaurant by ID                     |
-| POST   | `/api/restaurants`         |            | Adds restaurant, preferably using Yelp data  |
-| GET    | `/api/restaurants/explore` |            | Restaurants pulled from Yelp API             |
+| Method | Endpoint                  | Restricted | Description                                  |
+| ------ | ------------------------- | :--------: | -------------------------------------------- |
+| POST   | `/api/auth/register`      |            | Creates new user                             |
+| POST   | `/api/auth/login`         |            | Logs in user                                 |
+| GET    | `/api/users`              |     ✔️     | List of users                                |
+| GET    | `/api/users/:id`          |     ✔️     | User by ID                                   |
+| GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport |
+| DELETE | `/api/users/:id/passport` |     ✔️     | Delete a restaurant from a user's passport   |
+| GET    | `/api/restaurants`        |            | List of restaurants in the database          |
+| GET    | `/api/restaurants/:id`    |            | Returns restaurant by ID                     |
+| POST   | `/api/restaurants`        |            | Adds restaurant, preferably using Yelp data  |
+| GET    | `/api/explore`            |            | Restaurants pulled from Yelp API             |
 
 ## <a name="authentication-routes"></a>Authentication Routes
 
@@ -278,12 +279,11 @@ _response:_
 
 ### `https://rpass.herokuapp.com/api/restaurants`
 
-_Route requires authentication. Authentication token is given as a response when logging in._
-
-| Method | Endpoint   | Description                                                   |
-| ------ | ---------- | ------------------------------------------------------------- |
-| GET    | `/`        | List of restaurants in database                               |
-| GET    | `/explore` | Pulls restaurants from Yelp API (location parameter required) |
+| Method | Endpoint | Description                                 |
+| ------ | -------- | ------------------------------------------- |
+| GET    | `/`      | List of restaurants in database             |
+| GET    | `/:id`   | Returns restaurant by ID                    |
+| POST   | `/`      | Adds restaurant, preferably using Yelp data |
 
 <br/>
 
@@ -369,7 +369,7 @@ _response:_
 
 > <a name="post-restaurant"></a>`POST` &nbsp;&nbsp;&nbsp;/api/restaurants
 
-Should use data from `/api/restaurants/explore` to submit to restaurant database. Using `/api/restaurants/explore` will send back an object already organized as an object to be submitted at this endpoint.
+Should use data from `/api/explore` to submit to restaurant database. Using `/api/explore` will send back an object already organized as an object to be submitted at this endpoint.
 
 | Name           | Type   | Required | Description                               |
 | -------------- | ------ | :------: | ----------------------------------------- |
@@ -423,7 +423,17 @@ _response:_
 
 <br/>
 
-> <a name="explore-restaurants"></a>`GET` &nbsp;&nbsp;&nbsp;/api/restaurants/explore
+## <a name="explore-routes"></a>Explore Routes
+
+### `https://rpass.herokuapp.com/api/explore`
+
+| Method | Endpoint | Description                      |
+| ------ | -------- | -------------------------------- |
+| GET    | `/`      | Restaurants pulled from Yelp API |
+
+<br/>
+
+> <a name="explore-restaurants"></a>`GET` &nbsp;&nbsp;&nbsp;/api/explore
 
 Uses URL query parameters to perform search on Yelp API. Any single term can be used in `search` such as restaurant name, food types, etc. `location` should default to current user's location from the front end, otherwise it can be used to search by any location type such as zip code or city should the user input a location. Just remove the spaces and symbols from an input phrase and Yelp's API does the rest.
 
@@ -434,7 +444,7 @@ Uses URL query parameters to perform search on Yelp API. Any single term can be 
 
 _example:_
 
-> /api/restaurants/explore?search=bbq&location=kansascity
+> /api/explore?search=bbq&location=kansascity
 
 _Example uses search query `bbq` and location query `kansascity`. Results are sorted automatically by Yelp API, so some non-related items may appear after the search query is exhausted. For example, searching for bbq in 66202 will eventually have non-bbq results like `Ni Hao Fresh`. Consider this if using full list of response items._
 
