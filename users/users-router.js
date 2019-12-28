@@ -25,7 +25,6 @@ router.get("/:id", validateUserId, (req, res) => {
 });
 
 router.get("/:id/passport", validateUserId, (req, res) => {
-  console.log(req.params.id);
   Users.findPassportByUserId(req.params.id)
     .then(passports => {
       // passports.map(i => {
@@ -42,7 +41,6 @@ router.get("/:id/passport", validateUserId, (req, res) => {
       res.status(500).json({ error: "Could not retrieve passport" });
     });
 });
-
 
 function validateUserId(req, res, next) {
   Users.findById(req.params.id).then(user => {

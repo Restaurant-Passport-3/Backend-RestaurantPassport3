@@ -34,8 +34,9 @@ router.post("/", validateNewRestaurant, (req, res) => {
     .then(saved => {
       res.status(201).json(saved);
     })
-    .catch(error => {
-      res.status(500).json(error);
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Could not add restaurant" });
     });
 });
 
@@ -65,9 +66,11 @@ router.get("/explore", (req, res) => {
 
       res.status(200).json(restaurants);
     })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json(error);
+    .catch(err => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: "Could not retrieve explored restaurants from API" });
     });
 });
 
