@@ -242,7 +242,7 @@ _response:_
 
 <br/>
 
-> <a name="login"></a>`DELETE` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
+> <a name="delete-passport-item"></a>`DELETE` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
 
 | Name            | Type   | Required |
 | --------------- | ------ | :------: |
