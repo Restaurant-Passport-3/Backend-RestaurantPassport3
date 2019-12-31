@@ -9,6 +9,7 @@
   - [Get Users](#get-users)
   - [Get User By ID](#get-user-by-id)
   - [Get Passport By User ID](#get-passport)
+  - [Add Restaurant to User Passport](#add-passport)
   - [Edit Passport Item](#edit-passport-item)
   - [Delete Passport Item](#delete-passport-item)
 - [Restaurant Routes](#restaurant-routes)
@@ -26,22 +27,23 @@
 
 ## <a name="reference"></a>All Routes Quick Reference
 
-| Method | Endpoint                  | Restricted | Description                                  |
-| ------ | ------------------------- | :--------: | -------------------------------------------- |
-| POST   | `/api/auth/register`      |            | Creates new user                             |
-| POST   | `/api/auth/login`         |            | Logs in user                                 |
-|        |                           |            |                                              |
-| GET    | `/api/users`              |     ✔️     | List of users                                |
-| GET    | `/api/users/:id`          |     ✔️     | User by ID                                   |
-| GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport |
-| PUT    | `/api/users/:id/passport` |     ✔️     | Edit a passport's rating, notes, or stamp    |
-| DELETE | `/api/users/:id/passport` |     ✔️     | Delete a restaurant from a user's passport   |
-|        |                           |            |                                              |
-| GET    | `/api/restaurants`        |            | List of restaurants in the database          |
-| GET    | `/api/restaurants/:id`    |            | Returns restaurant by ID                     |
-| POST   | `/api/restaurants`        |            | Adds restaurant, preferably using Yelp data  |
-|        |                           |            |                                              |
-| GET    | `/api/explore`            |            | Restaurants pulled from Yelp API             |
+| Method | Endpoint                  | Restricted | Description                                     |
+| ------ | ------------------------- | :--------: | ----------------------------------------------- |
+| POST   | `/api/auth/register`      |            | Creates new user                                |
+| POST   | `/api/auth/login`         |            | Logs in user                                    |
+|        |                           |            |                                                 |
+| GET    | `/api/users`              |     ✔️     | List of users                                   |
+| GET    | `/api/users/:id`          |     ✔️     | User by ID                                      |
+| GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport    |
+| POST   | `/api/users/:id/passport` |     ✔️     | Add an existing restaurant to a user's passport |
+| PUT    | `/api/users/:id/passport` |     ✔️     | Edit a passport's rating, notes, or stamp       |
+| DELETE | `/api/users/:id/passport` |     ✔️     | Delete a restaurant from a user's passport      |
+|        |                           |            |                                                 |
+| GET    | `/api/restaurants`        |            | List of restaurants in the database             |
+| GET    | `/api/restaurants/:id`    |            | Returns restaurant by ID                        |
+| POST   | `/api/restaurants`        |            | Adds restaurant, preferably using Yelp data     |
+|        |                           |            |                                                 |
+| GET    | `/api/explore`            |            | Restaurants pulled from Yelp API                |
 
 <br/>
 
@@ -147,13 +149,14 @@ _response:_
 
 _Route requires authentication. Authentication token is given as a response when logging in._
 
-| Method | Endpoint                  | Description                                  |
-| ------ | ------------------------- | -------------------------------------------- |
-| GET    | `/`                       | List of users                                |
-| GET    | `/:id`                    | User by ID                                   |
-| GET    | `/:id/passport`           | User's list of restaurants in their passport |
-| PUT    | `/api/users/:id/passport` | Edit a passport's rating, notes, or stamp    |
-| DELETE | `/api/users/:id/passport` | Delete a restaurant from a user's passport   |
+| Method | Endpoint                  | Description                                     |
+| ------ | ------------------------- | ----------------------------------------------- |
+| GET    | `/`                       | List of users                                   |
+| GET    | `/:id`                    | User by ID                                      |
+| GET    | `/:id/passport`           | User's list of restaurants in their passport    |
+| POST   | `/api/users/:id/passport` | Add an existing restaurant to a user's passport |
+| PUT    | `/api/users/:id/passport` | Edit a passport's rating, notes, or stamp       |
+| DELETE | `/api/users/:id/passport` | Delete a restaurant from a user's passport      |
 
 <br/>
 
@@ -256,6 +259,50 @@ _response:_
     "user_id": 1
   }
 ]
+```
+
+<br/>
+
+---
+
+<br/>
+
+> <a name="add-passport"></a>`POST` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
+
+| Name            | Type   | Required |
+| --------------- | ------ | :------: |
+| `restaurant_id` | String |    ✔️    |
+
+_example:_
+
+> https://rpass.herokuapp.com/api/users/1/passport
+
+```
+{
+  "restaurant_id":"EMIHhPOUxZpnnXpwjOot6w"
+}
+```
+
+_response:_
+
+#### Status Code: 201 (Created)
+
+```
+{
+  "restaurant_id": "EMIHhPOUxZpnnXpwjOot6w",
+  "name": "R.J.'s Bob-Be-Que Shack",
+  "address": "5835 Lamar Ave",
+  "city": "Mission",
+  "state": "KS",
+  "zipcode": "66202",
+  "phone_number": "+19132627300",
+  "website_url": "https://www.yelp.com/biz/r-j-s-bob-be-que-shack-mission?adjust_creative=kinvXEM0dE5rw0AmScmMOw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=kinvXEM0dE5rw0AmScmMOw",
+  "img_url": "https://s3-media1.fl.yelpcdn.com/bphoto/fCw-titamiOiQvO3BrqFOA/o.jpg",
+  "rating": null,
+  "notes": null,
+  "stamped": 0,
+  "user_id": 1
+}
 ```
 
 <br/>
