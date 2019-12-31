@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const Users = require("./users-model.js");
+const Restaurants = require("../restaurants/restaurants-model.js");
 
 router.get("/", (req, res) => {
   Users.find()
@@ -42,10 +43,29 @@ router.get("/:id/passport", validateUserId, (req, res) => {
     });
 });
 
+router.post(
+  "/:id/passport",
+  validateUserId,
+  validateRestaurantId,
+  validatePassportAdd,
+  (req, res) => {
+    console.log("users-router post", req.body);
+    Users.addPassport(req.params.id, req.body.restaurant_id)
+      .then(response => {
+        res.status(201).json(response);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Could not add passport" });
+      });
+  }
+);
+
 router.put(
   "/:id/passport",
   validateUserId,
   validatePassportChanges,
+
   (req, res) => {
     Users.updatePassportItem(req.params.id, req.body.restaurant_id, req.body)
       .then(response => {
@@ -96,6 +116,18 @@ function validateUserId(req, res, next) {
   });
 }
 
+function validateRestaurantId(req, res, next) {
+  Restaurants.findById(req.body.restaurant_id).then(restaurant => {
+    if (restaurant) {
+      next();
+    } else {
+      res.status(404).json({
+        message: "The restaurant with the specified ID does not exist."
+      });
+    }
+  });
+}
+
 function validatePassportChanges(req, res, next) {
   const messages = [];
   //
@@ -125,6 +157,24 @@ function validatePassportChanges(req, res, next) {
   } else {
     next();
   }
+}
+
+function validatePassportAdd(req, res, next) {
+  Users.findPassportByUserAndResId(req.params.id, req.body.restaurant_id)
+    .then(response => {
+      console.log(response);
+      if (response.length <= 0) {
+        next();
+      } else {
+        res
+          .status(400)
+          .json({ message: "Passport already contains this restaurant" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Error finding restaurant on passport" });
+    });
 }
 
 module.exports = router;

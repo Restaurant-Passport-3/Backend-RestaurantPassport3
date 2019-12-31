@@ -6,6 +6,7 @@ module.exports = {
   findBy,
   findById,
 
+  addPassport,
   findPassportByUserId,
   findPassportByUserAndResId,
   updatePassportItem,
@@ -30,6 +31,17 @@ function findById(id) {
   return db("users")
     .where({ id })
     .first();
+}
+
+async function addPassport(user_id, restaurant_id) {
+  const pass = await db("passports").insert({
+    user_id: user_id,
+    restaurant_id: restaurant_id
+  });
+
+  console.log(pass);
+
+  return findPassportByUserAndResId(user_id, restaurant_id).first();
 }
 
 function findPassportByUserId(user_id) {
