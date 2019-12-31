@@ -42,6 +42,22 @@ router.get("/:id/passport", validateUserId, (req, res) => {
     });
 });
 
+router.put(
+  "/:id/passport",
+  validateUserId,
+  validatePassportChanges,
+  (req, res) => {
+    Users.updatePassportItem(req.params.id, req.body.restaurant_id, req.body)
+      .then(response => {
+        res.status(200).json(response);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Could not edit passport" });
+      });
+  }
+);
+
 router.delete("/:id/passport", validateUserId, (req, res) => {
   if (!req.body.restaurant_id) {
     res.status(400).json({ message: "Missing restaurant ID" });
@@ -80,6 +96,35 @@ function validateUserId(req, res, next) {
   });
 }
 
-function validatePassportId(req, res, next) {}
+function validatePassportChanges(req, res, next) {
+  const messages = [];
+  //
+  if (!req.body.restaurant_id) {
+    messages.push("Missing restaurant ID");
+  }
+  //
+  if (!req.body.rating) {
+    messages.push("Missing restaurant rating");
+  } else if (!Number.isInteger(req.body.rating)) {
+    messages.push("Restaurant rating is not an integer");
+  } else if (req.body.rating > 5 || req.body.rating < 0) {
+    messages.push("Restaurant rating must be between 1 and 5");
+  }
+  //
+  if (!req.body.notes) {
+    messages.push("Missing restaurant notes");
+  }
+  //
+  if (req.body.stamped !== true && req.body.stamped !== false) {
+    messages.push("Missing restaurant stamped");
+  }
+
+  if (messages.length > 0) {
+    console.log(messages);
+    res.status(400).json({ error: messages });
+  } else {
+    next();
+  }
+}
 
 module.exports = router;

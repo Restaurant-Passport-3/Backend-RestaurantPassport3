@@ -7,6 +7,8 @@ module.exports = {
   findById,
 
   findPassportByUserId,
+  findPassportByUserAndResId,
+  updatePassportItem,
   deletePassportItem
 };
 
@@ -50,6 +52,46 @@ function findPassportByUserId(user_id) {
     .join("users as u", "u.id", "p.user_id")
     .join("restaurants as r", "r.id", "p.restaurant_id")
     .where("user_id", user_id);
+}
+
+function findPassportByUserAndResId(user_id, restaurant_id) {
+  return db("passports as p")
+    .select(
+      "p.restaurant_id",
+      "r.name",
+      "r.address",
+      "r.city",
+      "r.state",
+      "r.zipcode",
+      "r.phone_number",
+      "r.website_url",
+      "r.img_url",
+      "p.rating",
+      "p.notes",
+      "p.stamped",
+      "u.id as user_id"
+    )
+    .join("users as u", "u.id", "p.user_id")
+    .join("restaurants as r", "r.id", "p.restaurant_id")
+    .where("user_id", user_id)
+    .andWhere("restaurant_id", restaurant_id);
+}
+
+function updatePassportItem(user_id, restaurant_id, changes) {
+  console.log(changes);
+  return db("passports")
+    .where("user_id", user_id)
+    .andWhere("restaurant_id", restaurant_id)
+    .update({
+      notes: changes.notes,
+      stamped: changes.stamped,
+      rating: changes.rating
+    })
+    .then(count =>
+      count > 0
+        ? this.findPassportByUserAndResId(user_id, restaurant_id).first()
+        : null
+    );
 }
 
 function deletePassportItem(user_id, restaurant_id) {

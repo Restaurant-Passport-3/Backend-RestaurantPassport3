@@ -9,6 +9,7 @@
   - [Get Users](#get-users)
   - [Get User By ID](#get-user-by-id)
   - [Get Passport By User ID](#get-passport)
+  - [Edit Passport Item](#edit-passport-item)
   - [Delete Passport Item](#delete-passport-item)
 - [Restaurant Routes](#restaurant-routes)
   - [Get Restaurants](#get-restaurants)
@@ -29,14 +30,24 @@
 | ------ | ------------------------- | :--------: | -------------------------------------------- |
 | POST   | `/api/auth/register`      |            | Creates new user                             |
 | POST   | `/api/auth/login`         |            | Logs in user                                 |
+|        |                           |            |                                              |
 | GET    | `/api/users`              |     ✔️     | List of users                                |
 | GET    | `/api/users/:id`          |     ✔️     | User by ID                                   |
 | GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport |
+| PUT    | `/api/users/:id/passport` |     ✔️     | Edit a passport's rating, notes, or stamp    |
 | DELETE | `/api/users/:id/passport` |     ✔️     | Delete a restaurant from a user's passport   |
+|        |                           |            |                                              |
 | GET    | `/api/restaurants`        |            | List of restaurants in the database          |
 | GET    | `/api/restaurants/:id`    |            | Returns restaurant by ID                     |
 | POST   | `/api/restaurants`        |            | Adds restaurant, preferably using Yelp data  |
+|        |                           |            |                                              |
 | GET    | `/api/explore`            |            | Restaurants pulled from Yelp API             |
+
+<br/>
+
+---
+
+<br/>
 
 ## <a name="authentication-routes"></a>Authentication Routes
 
@@ -46,6 +57,10 @@
 | ------ | ----------- | ---------------- |
 | POST   | `/register` | Creates new user |
 | POST   | `/login`    | Logs in user     |
+
+<br/>
+
+---
 
 <br/>
 
@@ -132,11 +147,17 @@ _response:_
 
 _Route requires authentication. Authentication token is given as a response when logging in._
 
-| Method | Endpoint        | Description                                  |
-| ------ | --------------- | -------------------------------------------- |
-| GET    | `/`             | List of users                                |
-| GET    | `/:id`          | User by ID                                   |
-| GET    | `/:id/passport` | User's list of restaurants in their passport |
+| Method | Endpoint                  | Description                                  |
+| ------ | ------------------------- | -------------------------------------------- |
+| GET    | `/`                       | List of users                                |
+| GET    | `/:id`                    | User by ID                                   |
+| GET    | `/:id/passport`           | User's list of restaurants in their passport |
+| PUT    | `/api/users/:id/passport` | Edit a passport's rating, notes, or stamp    |
+| DELETE | `/api/users/:id/passport` | Delete a restaurant from a user's passport   |
+
+<br/>
+
+---
 
 <br/>
 
@@ -243,6 +264,56 @@ _response:_
 
 <br/>
 
+> <a name="edit-passport-item"></a>`PUT` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
+
+| Name            | Type    | Required | Description            |
+| --------------- | ------- | :------: | ---------------------- |
+| `restaurant_id` | String  |    ✔️    |                        |
+| `notes`         | String  |    ✔️    |                        |
+| `rating`        | Integer |    ✔️    | Must be integer 1 to 5 |
+| `stamped`       | Boolean |    ✔️    |                        |
+
+_example:_
+
+> https://rpass.herokuapp.com/api/users/1/passport
+
+```
+{
+  "restaurant_id":"QhzJXO6E_oLAx1Wz1Z_T2g",
+  "notes":"I love BBQ!",
+  "stamped":true,
+  "rating":5
+}
+```
+
+_response:_
+
+#### Status Code: 200 (OK)
+
+```
+{
+  "restaurant_id": "QhzJXO6E_oLAx1Wz1Z_T2g",
+  "name": "Joe's Kansas City Bar-B-Que",
+  "address": "3002 W 47th Ave",
+  "city": "Kansas City",
+  "state": "KS",
+  "zipcode": "66103",
+  "phone_number": "+19137223366",
+  "website_url": "https://www.yelp.com/biz/joes-kansas-city-bar-b-que-kansas-city-3?adjust_creative=kinvXEM0dE5rw0AmScmMOw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=kinvXEM0dE5rw0AmScmMOw",
+  "img_url": "https://s3-media3.fl.yelpcdn.com/bphoto/yDnNC9K0SWnOOV2IEyOCjw/o.jpg",
+  "rating": 5,
+  "notes": "I love BBQ!",
+  "stamped": 1,
+  "user_id": 1
+}
+```
+
+<br/>
+
+---
+
+<br/>
+
 > <a name="delete-passport-item"></a>`DELETE` &nbsp;&nbsp;&nbsp;/api/users/:id/passport
 
 | Name            | Type   | Required |
@@ -284,6 +355,10 @@ _response:_
 | GET    | `/`      | List of restaurants in database             |
 | GET    | `/:id`   | Returns restaurant by ID                    |
 | POST   | `/`      | Adds restaurant, preferably using Yelp data |
+
+<br/>
+
+---
 
 <br/>
 
@@ -430,6 +505,10 @@ _response:_
 | Method | Endpoint | Description                      |
 | ------ | -------- | -------------------------------- |
 | GET    | `/`      | Restaurants pulled from Yelp API |
+
+<br/>
+
+---
 
 <br/>
 
