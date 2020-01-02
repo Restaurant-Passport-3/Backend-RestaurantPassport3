@@ -5,6 +5,7 @@ module.exports = {
   find,
   findBy,
   findById,
+  update,
 
   addPassport,
   findPassportByUserId,
@@ -14,7 +15,8 @@ module.exports = {
 };
 
 function find() {
-  return db("users").select("id", "username", "password");
+  // return db("users").select("id", "username", "password");
+  return db("users");
 }
 
 function findBy(filter) {
@@ -31,6 +33,18 @@ function findById(id) {
   return db("users")
     .where({ id })
     .first();
+}
+
+function update(user_id, changes) {
+  return db("users")
+    .where("id", user_id)
+    .update({
+      email: changes.email,
+      password: changes.password,
+      name: changes.name,
+      location: changes.location
+    })
+    .then(count => (count > 0 ? this.findById(user_id).first() : null));
 }
 
 async function addPassport(user_id, restaurant_id) {

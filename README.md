@@ -15,7 +15,7 @@
 - [Restaurant Routes](#restaurant-routes)
   - [Get Restaurants](#get-restaurants)
   - [Get Restaurant by ID](#get-restaurant-by-id)
-  - [Post Restaurant](#post-restaurant)
+  - [Add Restaurant](#add-restaurant)
 - [Explore Routes](#explore-routes)
   - [Explore Restaurants](#explore-restaurants)
 
@@ -489,7 +489,7 @@ _response:_
 
 <br/>
 
-> <a name="post-restaurant"></a>`POST` &nbsp;&nbsp;&nbsp;/api/restaurants
+> <a name="add-restaurant"></a>`POST` &nbsp;&nbsp;&nbsp;/api/restaurants
 
 Should use data from `/api/explore` to submit to restaurant database. Using `/api/explore` will send back an object already organized as an object to be submitted at this endpoint.
 

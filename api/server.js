@@ -15,8 +15,8 @@ server.use(cors());
 server.use(express.json());
 
 server.use("/api/auth", authRouter);
-// server.use("/api/users", authenticate, usersRouter);
-server.use("/api/users", usersRouter);
+server.use("/api/users", authenticate, usersRouter);
+// server.use("/api/users", usersRouter);
 server.use("/api/restaurants", restaurantsRouter);
 server.use("/api/explore", exploreRouter);
 

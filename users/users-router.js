@@ -1,29 +1,62 @@
+const bcrypt = require("bcryptjs");
+
 const router = require("express").Router();
 
 const Users = require("./users-model.js");
 const Restaurants = require("../restaurants/restaurants-model.js");
 
-router.get("/", (req, res) => {
-  Users.find()
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: "Could not retrieve users" });
-    });
-});
+const authenticate = require("../auth/authenticate-middleware.js");
 
-router.get("/:id", validateUserId, (req, res) => {
-  Users.findById(req.params.id)
-    .then(user => {
-      res.status(200).json(user);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: "Could not retrieve user" });
-    });
-});
+router.get(
+  "/",
+  authenticate,
+  (req, res) => {
+    Users.find()
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Could not retrieve users" });
+      });
+  }
+);
+
+router.get(
+  "/:id",
+  authenticate,
+  validateUserId,
+  (req, res) => {
+    Users.findById(req.params.id)
+      .then(user => {
+        res.status(200).json(user);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Could not retrieve user" });
+      });
+  }
+);
+
+router.put(
+  "/:id",
+  //authenticate,
+  validateUserId,
+  validateUserChanges,
+  (req, res) => {
+    req.body.password = bcrypt.hashSync(req.body.password, 10);
+
+    Users.update(req.params.id, req.body)
+      .then(response => {
+        console.log(response);
+        res.status(200).json(response);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Could not update user" });
+      });
+  }
+);
 
 router.get("/:id/passport", validateUserId, (req, res) => {
   Users.findPassportByUserId(req.params.id)
@@ -126,6 +159,33 @@ function validateRestaurantId(req, res, next) {
       });
     }
   });
+}
+
+function validateUserChanges(req, res, next) {
+  const messages = [];
+  //
+  if (!req.body.email) {
+    messages.push("Missing email address");
+  }
+  //
+  if (!req.body.password) {
+    messages.push("Missing password");
+  }
+  //
+  if (!req.body.name) {
+    messages.push("Missing name");
+  }
+  //
+  if (!req.body.location) {
+    messages.push("Missing location");
+  }
+
+  if (messages.length > 0) {
+    console.log(messages);
+    res.status(400).json({ error: messages });
+  } else {
+    next();
+  }
 }
 
 function validatePassportChanges(req, res, next) {
