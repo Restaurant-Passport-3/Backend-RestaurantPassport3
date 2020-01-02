@@ -221,7 +221,7 @@ _response:_
 
 <br/>
 
-> <a name="get-user-by-id"></a>`PUT` &nbsp;&nbsp;&nbsp;/api/users/:id
+> <a name="update-user"></a>`PUT` &nbsp;&nbsp;&nbsp;/api/users/:id
 
 _example:_
 
