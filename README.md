@@ -8,6 +8,7 @@
 - [User Routes](#user-routes)
   - [Get Users](#get-users)
   - [Get User By ID](#get-user-by-id)
+  - [Update User](#update-user)
   - [Get Passport By User ID](#get-passport)
   - [Add Restaurant to User Passport](#add-passport)
   - [Edit Passport Item](#edit-passport-item)
@@ -34,6 +35,7 @@
 |        |                           |            |                                                 |
 | GET    | `/api/users`              |     ✔️     | List of users                                   |
 | GET    | `/api/users/:id`          |     ✔️     | User by ID                                      |
+| PUT    | `/api/users/:id`          |     ✔️     | Update user information                         |
 | GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport    |
 | POST   | `/api/users/:id/passport` |     ✔️     | Add an existing restaurant to a user's passport |
 | PUT    | `/api/users/:id/passport` |     ✔️     | Edit a passport's rating, notes, or stamp       |
@@ -149,14 +151,15 @@ _response:_
 
 _Route requires authentication. Authentication token is given as a response when logging in._
 
-| Method | Endpoint                  | Description                                     |
-| ------ | ------------------------- | ----------------------------------------------- |
-| GET    | `/`                       | List of users                                   |
-| GET    | `/:id`                    | User by ID                                      |
-| GET    | `/:id/passport`           | User's list of restaurants in their passport    |
-| POST   | `/api/users/:id/passport` | Add an existing restaurant to a user's passport |
-| PUT    | `/api/users/:id/passport` | Edit a passport's rating, notes, or stamp       |
-| DELETE | `/api/users/:id/passport` | Delete a restaurant from a user's passport      |
+| Method | Endpoint         | Description                                     |
+| ------ | ---------------- | ----------------------------------------------- |
+| GET    | `/`              | List of users                                   |
+| GET    | `/:id`           | User by ID                                      |
+| PUT    | `/api/users/:id` | Update user information                         |
+| GET    | `/:id/passport`  | User's list of restaurants in their passport    |
+| POST   | `/:id/passport`  | Add an existing restaurant to a user's passport |
+| PUT    | `/:id/passport`  | Edit a passport's rating, notes, or stamp       |
+| DELETE | `/:id/passport`  | Delete a restaurant from a user's passport      |
 
 <br/>
 
@@ -209,6 +212,42 @@ _response:_
   "password": "$2a$10$AJjOEKTH/AGD/2/DR3VgTOm4Lcf6cQvPdDGccGD.6LVlp/pj7b9PG",
   "name": "Test User",
   "location": "66202"
+}
+```
+
+<br/>
+
+---
+
+<br/>
+
+> <a name="get-user-by-id"></a>`PUT` &nbsp;&nbsp;&nbsp;/api/users/:id
+
+_example:_
+
+> https://rpass.herokuapp.com/api/users/1
+
+```
+{
+  "email":"update@update.com",
+  "password":"update",
+  "name":"Updated Name",
+  "location":"New York"
+}
+```
+
+_response:_
+
+#### Status Code: 200 (OK)
+
+```
+{
+  "id": 1,
+  "username": "user",
+  "email": "update@update.com",
+  "password": "$2a$10$6DOH54dElJ5LI7pa/JilveEp2drbAnqcJGqLSQR0hE2nD0XmU3/H6",
+  "name": "Updated Name",
+  "location": "New York"
 }
 ```
 

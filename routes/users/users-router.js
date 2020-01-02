@@ -7,36 +7,27 @@ const Restaurants = require("../restaurants/restaurants-model.js");
 
 const authenticate = require("../auth/authenticate-middleware.js");
 
-router.get(
-  "/",
-  authenticate,
-  (req, res) => {
-    Users.find()
-      .then(users => {
-        res.status(200).json(users);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({ error: "Could not retrieve users" });
-      });
-  }
-);
+router.get("/", authenticate, (req, res) => {
+  Users.find()
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Could not retrieve users" });
+    });
+});
 
-router.get(
-  "/:id",
-  authenticate,
-  validateUserId,
-  (req, res) => {
-    Users.findById(req.params.id)
-      .then(user => {
-        res.status(200).json(user);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({ error: "Could not retrieve user" });
-      });
-  }
-);
+router.get("/:id", authenticate, validateUserId, (req, res) => {
+  Users.findById(req.params.id)
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Could not retrieve user" });
+    });
+});
 
 router.put(
   "/:id",
@@ -44,6 +35,7 @@ router.put(
   validateUserId,
   validateUserChanges,
   (req, res) => {
+    console.log(req.body);
     req.body.password = bcrypt.hashSync(req.body.password, 10);
 
     Users.update(req.params.id, req.body)
@@ -162,6 +154,7 @@ function validateRestaurantId(req, res, next) {
 }
 
 function validateUserChanges(req, res, next) {
+  console.log(req.body);
   const messages = [];
   //
   if (!req.body.email) {
@@ -181,7 +174,6 @@ function validateUserChanges(req, res, next) {
   }
 
   if (messages.length > 0) {
-    console.log(messages);
     res.status(400).json({ error: messages });
   } else {
     next();
