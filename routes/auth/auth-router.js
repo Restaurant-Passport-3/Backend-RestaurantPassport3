@@ -14,6 +14,7 @@ router.post("/register", validateRegister, (req, res) => {
       res.status(201).json(saved);
     })
     .catch(error => {
+      console.log("ERROR IN REGISTER!", error);
       res.status(500).json(error);
     });
 });
