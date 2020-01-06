@@ -11,6 +11,7 @@ router.post("/register", validateRegister, (req, res) => {
 
   Users.add(user)
     .then(saved => {
+      console.log("ADDED USER", saved);
       res.status(201).json(saved);
     })
     .catch(error => {
