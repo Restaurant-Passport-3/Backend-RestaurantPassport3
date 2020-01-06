@@ -27,8 +27,8 @@ router.get("/:id", validateRestaurantId, (req, res) => {
 router.post("/", validateNewRestaurant, (req, res) => {
   const restaurant = req.body;
   Restaurants.add(restaurant)
-    .then(saved => {
-      res.status(201).json(saved);
+    .then(response => {
+      res.status(201).json({ message: "Restaurant added successfully" });
     })
     .catch(err => {
       console.log(err);

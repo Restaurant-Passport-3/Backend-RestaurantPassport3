@@ -16,9 +16,7 @@ function findBy(filter) {
 }
 
 async function add(restaurant) {
-  const [id] = await db("restaurants").insert(restaurant);
-
-  return findById(restaurant.id).first();
+  return db("restaurants").insert(restaurant);
 }
 
 function findById(id) {
