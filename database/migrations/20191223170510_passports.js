@@ -1,14 +1,14 @@
 exports.up = function(knex) {
-  return knex.schema.createTable("passports", users => {
-    users.integer("user_id").notNullable();
+  return knex.schema.createTable("passports", passports => {
+    passports.integer("user_id").notNullable();
 
-    users.string("restaurant_id", 128).notNullable();
+    passports.string("restaurant_id", 128).notNullable();
 
-    users.integer("rating");
+    passports.integer("rating");
 
-    users.string("notes", 512);
+    passports.string("notes", 512);
 
-    users
+    passports
       .boolean("stamped")
       .notNullable()
       .defaultsTo(false);

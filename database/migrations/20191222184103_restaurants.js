@@ -1,31 +1,25 @@
 exports.up = function(knex) {
-  return knex.schema.createTable("restaurants", users => {
-    users
+  return knex.schema.createTable("restaurants", restaurants => {
+    restaurants
       .string("id", 128)
       .notNullable()
       .unique();
 
-    users
-      .string("name", 128)
-      .notNullable()
-      .unique();
+    restaurants.string("name", 128).notNullable();
 
-    users
-      .string("address", 128)
-      .notNullable()
-      .unique();
+    restaurants.string("address", 128).notNullable();
 
-    users.string("city", 128).notNullable();
+    restaurants.string("city", 128).notNullable();
 
-    users.string("state", 128).notNullable();
+    restaurants.string("state", 128).notNullable();
 
-    users.string("zipcode", 128).notNullable();
+    restaurants.string("zipcode", 128).notNullable();
 
-    users.string("phone_number", 128).notNullable();
+    restaurants.string("phone_number", 128).notNullable();
 
-    users.string("website_url", 256).notNullable();
+    restaurants.string("website_url", 256).notNullable();
 
-    users.string("img_url", 256);
+    restaurants.string("img_url", 256);
   });
 };
 
