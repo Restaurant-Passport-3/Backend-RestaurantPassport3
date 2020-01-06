@@ -56,7 +56,7 @@ async function addPassport(user_id, restaurant_id) {
 
   console.log(pass);
 
-  return findPassportByUserAndResId(user_id, restaurant_id).first();
+  return findPassportByUserAndResId(user_id, restaurant_id);
 }
 
 function findPassportByUserId(user_id) {
