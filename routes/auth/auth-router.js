@@ -10,9 +10,10 @@ router.post("/register", validateRegister, (req, res) => {
   user.password = hash;
 
   Users.add(user)
-    .then(saved => {
-      console.log("ADDED USER", saved);
-      res.status(201).json(saved);
+    .then(response => {
+      if (response) {
+        res.status(201).json({ message: "User registered successfully" });
+      }
     })
     .catch(error => {
       console.log(error);

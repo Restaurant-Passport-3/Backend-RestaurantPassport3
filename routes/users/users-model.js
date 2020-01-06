@@ -23,13 +23,11 @@ function findBy(filter) {
   return db("users").where(filter);
 }
 
-async function add(user) {
+function add(user) {
   // const [id] = await db("users").insert(user);
 
   // return findById(id).first();
-  const [id] = await db("users").insert(user);
-
-  return findById(id);
+  return db("users").insert(user);
 }
 
 function findById(id) {
