@@ -11,7 +11,8 @@ router.get("/", (req, res) => {
     .search({
       term: req.query.search ? req.query.search : "",
       //can be name of location or zipcode! required
-      location: req.query.location ? req.query.location : "66202"
+      location: req.query.location ? req.query.location : "66202",
+      categories: "restaurants"
       // limit: 50
     })
     .then(response => {
