@@ -25,9 +25,8 @@ function findBy(filter) {
 
 async function add(user) {
   const [id] = await db("users").insert(user);
-  console.log("ID OF USER-MODEL ADD", id);
 
-  return findById(id).first();
+  return findById(id);
 }
 
 function findById(id) {
