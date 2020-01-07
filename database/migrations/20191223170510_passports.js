@@ -4,7 +4,7 @@ exports.up = function(knex) {
 
     passports.string("restaurant_id", 128).notNullable();
 
-    passports.date("date");
+    passports.bigint("date");
 
     passports.integer("rating");
 
