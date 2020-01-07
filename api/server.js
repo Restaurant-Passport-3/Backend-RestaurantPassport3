@@ -14,6 +14,8 @@ const exploreRouter = require("../routes/restaurants/explore-router.js");
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 
 server.use("/api/auth", authRouter);
 server.use("/api/users", authenticate, usersRouter);

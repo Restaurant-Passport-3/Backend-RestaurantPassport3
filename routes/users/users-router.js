@@ -109,10 +109,10 @@ router.put(
 );
 
 router.delete("/:id/passport", (req, res) => {
-  console.log(JSON.stringify(req.body));
   console.log(`DELETE restaurant ${req.body.restaurant_id}`);
 
   if (!req.body.restaurant_id) {
+    console.log("Missing restaurant ID!");
     res.status(400).json({ message: "Missing restaurant ID" });
   } else {
     Users.deletePassportItem(req.params.id, req.body.restaurant_id)
