@@ -109,6 +109,7 @@ router.put(
 );
 
 router.delete("/:id/passport", validateUserId, (req, res) => {
+  console.log(req.body);
   console.log(`DELETE restaurant ${req.body.restaurant_id}`);
   Users.deletePassportItem(req.params.id, req.body.restaurant_id)
     .then(response => {
