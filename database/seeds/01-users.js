@@ -22,6 +22,13 @@ exports.seed = function(knex) {
       password: bcrypt.hashSync("password", 10),
       name: "Jack Barry",
       location: "New York"
+    },
+    {
+      username: "kylewp13@gmail.com",
+      email: "kylewp13@gmail.com",
+      password: bcrypt.hashSync("password", 10),
+      name: "Kyle Porter",
+      location: "France"
     }
   ]);
 };
