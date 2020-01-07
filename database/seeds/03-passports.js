@@ -3,18 +3,22 @@ exports.seed = function(knex) {
     {
       user_id: 1,
       restaurant_id: "QhzJXO6E_oLAx1Wz1Z_T2g",
-      date: 1212331231231
+      date: date.now()
     },
     {
       user_id: 1,
       restaurant_id: "lPtvU9WezDkRzEvJge4sFw",
-      date: 1212331231232
+      date: date.now()
     },
     {
       user_id: 2,
       restaurant_id: "lPtvU9WezDkRzEvJge4sFw",
-      date: 1212331231233
+      date: date.now()
     },
-    { user_id: 2, restaurant_id: "EMIHhPOUxZpnnXpwjOot6w", date: 1212331231234 }
+    {
+      user_id: 2,
+      restaurant_id: "EMIHhPOUxZpnnXpwjOot6w",
+      date: date.now()
+    }
   ]);
 };
