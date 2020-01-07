@@ -80,7 +80,7 @@ router.post(
   validatePassportAdd,
   (req, res) => {
     console.log("users-router post", req.body);
-    Users.addPassport(req.params.id, req.body.restaurant_id)
+    Users.addPassport(req.params.id, req.body.restaurant_id, Date.now())
       .then(response => {
         res.status(201).json(response);
       })

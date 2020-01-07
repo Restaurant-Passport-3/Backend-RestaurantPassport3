@@ -48,10 +48,11 @@ function update(user_id, changes) {
     .then(count => (count > 0 ? this.findById(user_id).first() : null));
 }
 
-async function addPassport(user_id, restaurant_id) {
+async function addPassport(user_id, restaurant_id, date) {
   const pass = await db("passports").insert({
     user_id: user_id,
-    restaurant_id: restaurant_id
+    restaurant_id: restaurant_id,
+    date: date
   });
 
   console.log(pass);
@@ -74,6 +75,7 @@ function findPassportByUserId(user_id) {
       "p.rating",
       "p.notes",
       "p.stamped",
+      "p.date",
       "u.id as user_id"
     )
     .join("users as u", "u.id", "p.user_id")
@@ -96,6 +98,7 @@ function findPassportByUserAndResId(user_id, restaurant_id) {
       "p.rating",
       "p.notes",
       "p.stamped",
+      "p.date",
       "u.id as user_id"
     )
     .join("users as u", "u.id", "p.user_id")
