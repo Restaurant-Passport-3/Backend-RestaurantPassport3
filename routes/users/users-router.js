@@ -109,23 +109,17 @@ router.put(
 );
 
 router.delete("/:id/passport", validateUserId, (req, res) => {
-  if (!req.body.restaurant_id) {
-    res.status(400).json({ message: "Missing restaurant ID" });
-  } else {
-    console.log(req.params.id, req.body);
-    Users.deletePassportItem(req.params.id, req.body.restaurant_id)
-      .then(response => {
-        res
-          .status(200)
-          .json({ message: "Passport item deleted successfully." });
-      })
-      .catch(err => {
-        console.log(err);
-        res
-          .status(500)
-          .json({ error: "Could not delete restaurant on passport" });
-      });
-  }
+  console.log(req.params.id, req.body);
+  Users.deletePassportItem(req.params.id, req.body.restaurant_id)
+    .then(response => {
+      res.status(200).json({ message: "Passport item deleted successfully." });
+    })
+    .catch(err => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: "Could not delete restaurant on passport" });
+    });
 });
 
 function validateUserId(req, res, next) {
