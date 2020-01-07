@@ -125,8 +125,13 @@ function updatePassportItem(user_id, restaurant_id, changes) {
 }
 
 function deletePassportItem(user_id, restaurant_id) {
-  return db("passports")
-    .where("user_id", user_id)
-    .andWhere("restaurant_id", restaurant_id)
-    .del();
+  console.log(user_id, restaurant_id);
+  return (
+    db("passports")
+      // .where("user_id", user_id)
+      .where({ user_id })
+      // .andWhere("restaurant_id", restaurant_id)
+      .andWhere({ restaurant_id })
+      .del()
+  );
 }
