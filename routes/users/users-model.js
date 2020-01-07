@@ -130,6 +130,4 @@ async function deletePassportItem(user_id, restaurant_id) {
     .where("user_id", user_id)
     .andWhere("restaurant_id", restaurant_id)
     .del();
-
-  return 1;
 }
