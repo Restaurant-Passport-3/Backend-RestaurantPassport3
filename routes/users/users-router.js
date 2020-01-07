@@ -109,7 +109,6 @@ router.put(
 );
 
 router.delete("/:id/passport", validateUserId, (req, res) => {
-  console.log(req.params.id, req.body);
   Users.deletePassportItem(req.params.id, req.body.restaurant_id)
     .then(response => {
       res.status(200).json({ message: "Passport item deleted successfully." });
