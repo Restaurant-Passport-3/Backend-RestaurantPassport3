@@ -125,6 +125,7 @@ function updatePassportItem(user_id, restaurant_id, changes) {
 }
 
 async function deletePassportItem(user_id, restaurant_id) {
+  console.log(`user_id: ${user_id} // restaurant_id: ${restaurant_id}`);
   await db("passports")
     .where("user_id", user_id)
     .andWhere("restaurant_id", restaurant_id)
