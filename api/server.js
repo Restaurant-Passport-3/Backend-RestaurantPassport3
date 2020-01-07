@@ -7,13 +7,7 @@ const server = express();
 
 server.use(helmet());
 server.use(cors());
-// server.use(express.json());
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json());
+server.use(express.json());
 
 const authenticate = require("../routes/auth/authenticate-middleware.js");
 const authRouter = require("../routes/auth/auth-router.js");
