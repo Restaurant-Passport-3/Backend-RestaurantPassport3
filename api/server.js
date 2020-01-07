@@ -7,7 +7,9 @@ const server = express();
 
 server.use(helmet());
 server.use(cors());
-server.use(express.json());
+// server.use(express.json());
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
 
 const authenticate = require("../routes/auth/authenticate-middleware.js");
 const authRouter = require("../routes/auth/auth-router.js");
