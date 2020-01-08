@@ -60,8 +60,7 @@ function validateNewRestaurant(req, res, next) {
     !req.body.state ||
     !req.body.zipcode ||
     !req.body.phone_number ||
-    !req.body.website_url ||
-    !req.body.img_url
+    !req.body.website_url
   ) {
     res.status(400).json({ message: "Missing registration fields" });
   } else {
