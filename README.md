@@ -28,24 +28,24 @@
 
 ## <a name="reference"></a>All Routes Quick Reference
 
-| Method | Endpoint                  | Restricted | Description                                     |
-| ------ | ------------------------- | :--------: | ----------------------------------------------- |
-| POST   | `/api/auth/register`      |            | Creates new user                                |
-| POST   | `/api/auth/login`         |            | Logs in user                                    |
-|        |                           |            |                                                 |
-| GET    | `/api/users`              |     ✔️     | List of users                                   |
-| GET    | `/api/users/:id`          |     ✔️     | User by ID                                      |
-| PUT    | `/api/users/:id`          |     ✔️     | Update user information                         |
-| GET    | `/api/users/:id/passport` |     ✔️     | User's list of restaurants in their passport    |
-| POST   | `/api/users/:id/passport` |     ✔️     | Add an existing restaurant to a user's passport |
-| PUT    | `/api/users/:id/passport` |     ✔️     | Edit a passport's rating, notes, or stamp       |
-| DELETE | `/api/users/:id/passport` |     ✔️     | Delete a restaurant from a user's passport      |
-|        |                           |            |                                                 |
-| GET    | `/api/restaurants`        |            | List of restaurants in the database             |
-| GET    | `/api/restaurants/:id`    |            | Returns restaurant by ID                        |
-| POST   | `/api/restaurants`        |            | Adds restaurant, preferably using Yelp data     |
-|        |                           |            |                                                 |
-| GET    | `/api/explore`            |            | Restaurants pulled from Yelp API                |
+| Method | Endpoint                       | Restricted | Description                                     |
+| ------ | ------------------------------ | :--------: | ----------------------------------------------- |
+| POST   | `/api/auth/register`           |            | Creates new user                                |
+| POST   | `/api/auth/login`              |            | Logs in user                                    |
+|        |                                |            |                                                 |
+| GET    | `/api/users`                   |     ✔️     | List of users                                   |
+| GET    | `/api/users/:id`               |     ✔️     | User by ID                                      |
+| PUT    | `/api/users/:id`               |     ✔️     | Update user information                         |
+| GET    | `/api/users/:id/passport`      |     ✔️     | User's list of restaurants in their passport    |
+| POST   | `/api/users/:id/passport`      |     ✔️     | Add an existing restaurant to a user's passport |
+| PUT    | `/api/users/:id/passport`      |     ✔️     | Edit a passport's rating, notes, or stamp       |
+| DELETE | `/api/users/:id/passport/:rid` |     ✔️     | Delete a restaurant from a user's passport      |
+|        |                                |            |                                                 |
+| GET    | `/api/restaurants`             |            | List of restaurants in the database             |
+| GET    | `/api/restaurants/:id`         |            | Returns restaurant by ID                        |
+| POST   | `/api/restaurants`             |            | Adds restaurant, preferably using Yelp data     |
+|        |                                |            |                                                 |
+| GET    | `/api/explore`                 |            | Restaurants pulled from Yelp API                |
 
 <br/>
 

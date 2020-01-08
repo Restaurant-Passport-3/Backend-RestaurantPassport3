@@ -84,6 +84,7 @@ function findPassportByUserId(user_id) {
 }
 
 function findPassportByUserAndResId(user_id, restaurant_id) {
+  console.log(user_id, restaurant_id);
   return db("passports as p")
     .select(
       "p.restaurant_id",
@@ -107,9 +108,8 @@ function findPassportByUserAndResId(user_id, restaurant_id) {
     .andWhere("restaurant_id", restaurant_id);
 }
 
-function updatePassportItem(user_id, restaurant_id, changes) {
-  console.log(changes);
-  return db("passports")
+async function updatePassportItem(user_id, restaurant_id, changes) {
+  const changed = await db("passports")
     .where("user_id", user_id)
     .andWhere("restaurant_id", restaurant_id)
     .update({
@@ -122,6 +122,8 @@ function updatePassportItem(user_id, restaurant_id, changes) {
         ? this.findPassportByUserAndResId(user_id, restaurant_id).first()
         : null
     );
+
+  return 1;
 }
 
 function deletePassportItem(user_id, restaurant_id) {

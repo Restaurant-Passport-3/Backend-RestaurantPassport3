@@ -94,6 +94,7 @@ router.post(
 router.put(
   "/:id/passport",
   validateUserId,
+  validateRestaurantIdExists,
   validatePassportChanges,
 
   (req, res) => {
@@ -185,6 +186,21 @@ async function validateRestaurantId(req, res, next) {
   });
 }
 
+async function validateRestaurantIdExists(req, res, next) {
+  const rid = req.params.rid ? req.params.rid : req.body.restaurant_id;
+
+  Users.findPassportByUserAndResId(req.params.id, rid).then(restaurant => {
+    if (restaurant.length > 0) {
+      console.log(restaurant);
+      next();
+    } else {
+      res.status(404).json({
+        message: "The restaurant with the specified ID does not exist."
+      });
+    }
+  });
+}
+
 function validateNewRestaurant(req, res, next) {
   if (!Object.keys(req.body).length > 0) {
     res.status(400).json({ message: "missing restaurant data" });
@@ -245,20 +261,24 @@ function validatePassportChanges(req, res, next) {
     messages.push("Missing restaurant ID");
   }
   //
+  if (!req.body.rating && !req.body.notes && !req.body.stamped) {
+    messages.push("Must have one field (rating, notes, stamped) to update");
+  }
+  //
   if (!req.body.rating) {
-    messages.push("Missing restaurant rating");
-  } else if (!Number.isInteger(req.body.rating)) {
+    // messages.push("Missing restaurant rating");
+  } else if (req.body.rating && !Number.isInteger(req.body.rating)) {
     messages.push("Restaurant rating is not an integer");
-  } else if (req.body.rating > 5 || req.body.rating < 0) {
+  } else if (req.body.rating && (req.body.rating > 5 || req.body.rating < 0)) {
     messages.push("Restaurant rating must be between 1 and 5");
   }
   //
   if (!req.body.notes) {
-    messages.push("Missing restaurant notes");
+    // messages.push("Missing restaurant notes");
   }
   //
   if (req.body.stamped !== true && req.body.stamped !== false) {
-    messages.push("Missing restaurant stamped");
+    // messages.push("Missing restaurant stamped");
   }
 
   if (messages.length > 0) {
