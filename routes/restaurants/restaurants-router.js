@@ -50,22 +50,47 @@ function validateRestaurantId(req, res, next) {
 }
 
 function validateNewRestaurant(req, res, next) {
+  const messages = [];
+
   if (!Object.keys(req.body).length > 0) {
-    res.status(400).json({ message: "missing restaurant data" });
-  } else if (
-    !req.body.id ||
-    !req.body.name ||
-    !req.body.address ||
-    !req.body.city ||
-    !req.body.state ||
-    !req.body.zipcode ||
-    !req.body.phone_number ||
-    !req.body.website_url
-  ) {
-    res.status(400).json({ message: "Missing registration fields" });
+    console.log("Add new restaurant 400 error. Missing restaurant data.");
+    messages.push("missing restaurant data");
+  }
+
+  if (!req.body.id) {
+    messages.push("Missing restaurant ID");
+  }
+
+  if (!req.body.name) {
+    messages.push("Missing restaurant name");
+  }
+  if (!req.body.address) {
+    messages.push("Missing restaurant address");
+  }
+  if (!req.body.city) {
+    messages.push("Missing restaurant city");
+  }
+  if (!req.body.state) {
+    messages.push("Missing restaurant state");
+  }
+  if (!req.body.zipcode) {
+    messages.push("Missing restaurant zipcode");
+  }
+  if (!req.body.phone_number) {
+    messages.push("Missing restaurant phone number");
+  }
+  if (!req.body.website_url) {
+    messages.push("Missing restaurant url");
+  }
+
+  if (messages.length > 0) {
+    res.status(400).json(messages);
   } else {
     Restaurants.findById(req.body.id).then(restaurant => {
       if (restaurant) {
+        console.log(
+          "Add new restaurant 409 error. Restaurant is already in database."
+        );
         res.status(409).json({ message: "Restaurant is already in database." });
       } else {
         next();
