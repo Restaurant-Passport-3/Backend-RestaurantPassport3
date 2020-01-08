@@ -80,7 +80,7 @@ router.post(
   validatePassportAdd,
   (req, res) => {
     console.log("users-router post", req.body);
-    Users.addPassport(req.params.id, req.body.restaurant_id)
+    Users.addPassport(req.params.id, req.body.restaurant_id, Date.now())
       .then(response => {
         res.status(201).json(response);
       })
@@ -108,30 +108,21 @@ router.put(
   }
 );
 
-router.delete("/:id/passport", validateUserId, (req, res) => {
-  if (!req.body.restaurant_id) {
-    res.status(400).json({ message: "Missing restaurant ID" });
-  } else {
-    Users.deletePassportItem(req.params.id, req.body.restaurant_id)
-      .then(response => {
-        if (response === 1) {
-          res
-            .status(200)
-            .json({ message: "Passport item deleted successfully." });
-        } else {
-          res.status(404).json({
-            message:
-              "The restaurant with the specified ID does not exist on this passport."
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res
-          .status(500)
-          .json({ error: "Could not delete restaurant on passport" });
-      });
-  }
+router.delete("/:id/passport/:rid", validateUserId, (req, res) => {
+  console.log(`id: ${req.params.id} // rid: ${req.params.rid}`);
+  console.log(`DELETE restaurant ${req.body.restaurant_id}`);
+
+  Users.deletePassportItem(req.params.id, req.params.rid)
+    .then(response => {
+      console.log(response);
+      res.status(200).json({ message: "Passport item deleted successfully." });
+    })
+    .catch(err => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: "Could not delete restaurant on passport" });
+    });
 });
 
 function validateUserId(req, res, next) {
@@ -147,7 +138,9 @@ function validateUserId(req, res, next) {
 }
 
 async function validateRestaurantId(req, res, next) {
-  Restaurants.findById(req.body.restaurant_id).then(restaurant => {
+  const rid = req.params.rid ? req.params.rid : req.body.restaurant_id;
+
+  Restaurants.findById(rid).then(restaurant => {
     if (restaurant) {
       next();
     } else {

@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const bodyParser = require("body-parser");
+
+const server = express();
 
 const authenticate = require("../routes/auth/authenticate-middleware.js");
 const authRouter = require("../routes/auth/auth-router.js");
@@ -8,11 +11,11 @@ const usersRouter = require("../routes/users/users-router.js");
 const restaurantsRouter = require("../routes/restaurants/restaurants-router.js");
 const exploreRouter = require("../routes/restaurants/explore-router.js");
 
-const server = express();
-
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 
 server.use("/api/auth", authRouter);
 server.use("/api/users", authenticate, usersRouter);
