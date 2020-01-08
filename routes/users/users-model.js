@@ -123,7 +123,7 @@ async function updatePassportItem(user_id, restaurant_id, changes) {
         : null
     );
 
-  return 1;
+  return changed;
 }
 
 function deletePassportItem(user_id, restaurant_id) {
