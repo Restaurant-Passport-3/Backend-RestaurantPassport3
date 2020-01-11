@@ -33,6 +33,7 @@ router.post("/login", validateLogin, (req, res) => {
         res.status(200).json({
           message: `Logged in as ${user.username}.`,
           user_id: user.id,
+          user_location: user.location,
           token
         });
       } else {
