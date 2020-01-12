@@ -7,6 +7,10 @@ exports.up = function(knex) {
 
     restaurants.string("name", 128).notNullable();
 
+    restaurants.string("category1", 128);
+    restaurants.string("category2", 128);
+    restaurants.string("category3", 128);
+
     restaurants.string("address", 128).notNullable();
 
     restaurants.string("city", 128).notNullable();

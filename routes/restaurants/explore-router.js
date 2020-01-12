@@ -16,16 +16,24 @@ router.get("/", (req, res) => {
       // limit: 50
     })
     .then(response => {
+      console.dir(response);
       let restaurants = [];
       response.jsonBody.businesses.map(i => {
+        let categories = [];
+        i.categories.map(j => {
+          categories.push(j.title);
+        });
         restaurants.push({
           id: i.id,
           name: i.name,
-          address: i.location.address1,
+          category1: categories[0],
+          category2: categories[1],
+          category3: categories[2],
+          address: i.location.address,
           city: i.location.city,
           state: i.location.state,
           zipcode: i.location.zip_code,
-          phone_number: i.phone,
+          phone_number: i.display_phone,
           website_url: i.url,
           img_url: i.image_url
         });
